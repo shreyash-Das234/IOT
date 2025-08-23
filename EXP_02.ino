@@ -8,7 +8,7 @@ const char *ssid =  "shreyash";     // replace with your wifi ssid and wpa2 key
 const char *pass =  "shreyash";
 const char* server = "api.thingspeak.com";
  
-#define DHTPIN 7          //pin where the dht11 is connected
+#define DHTPIN D7          //pin where the dht11 is connected
  
 DHT dht(DHTPIN, DHT11);
  
@@ -79,5 +79,5 @@ void loop()
           Serial.println("Waiting...");
   
   // thingspeak needs minimum 15 sec delay between updates
-  delay(1000);
+  delay(15000);
 }
