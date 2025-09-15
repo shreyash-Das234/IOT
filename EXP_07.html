@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Weather Dashboard</title> // Change your firebase credentials here
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-color: #121212;
+            --card-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --primary-color: #4a90e2;
+            --secondary-color: #50e3c2;
+            --shadow-dark: rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .dashboard-container {
+            text-align: center;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-dark);
+            background: linear-gradient(145deg, var(--card-color), #2a2a2a);
+            width: 90%;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            flex: 1;
+            background-color: var(--card-color);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-dark);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px var(--shadow-dark);
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.2em;
+            font-weight: 400;
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        p {
+            font-size: 3.5em;
+            font-weight: 600;
+            margin: 0.2em 0 0;
+            color: var(--secondary-color);
+        }
+
+        #temperature:after {
+            content: "°C";
+            font-size: 0.4em;
+            vertical-align: super;
+            font-weight: 300;
+        }
+
+        #humidity:after {
+            content: "%";
+            font-size: 0.4em;
+            vertical-align: super;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Firebase Weather Dashboard</h1>
+        <div class="card-container">
+            <div class="card">
+                <span class="icon">🌡️</span>
+                <h2>Temperature</h2>
+                <p id="temperature">--</p>
+            </div>
+            <div class="card">
+                <span class="icon">💧</span>
+                <h2>Humidity</h2>
+                <p id="humidity">--</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Replace with your Firebase project's config
+        const firebaseConfig = {
+            apiKey: "AIzaSyBfXAOSed-XLFoPW-Hg1K22hvZ-eJaAsSM",
+            databaseURL: "https://weather-monitering-28fd5-default-rtdb.firebaseio.com/",
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the database service
+        const database = firebase.database();
+
+        // Get a reference to the 'DHT' node in the database
+        const dhtRef = database.ref('DHT');
+
+        // Listen for changes in the 'DHT' node
+        dhtRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            const tempElement = document.getElementById('temperature');
+            const humElement = document.getElementById('humidity');
+
+            if (data) {
+                const temperature = data.temperature;
+                const humidity = data.humidity;
+
+                tempElement.textContent = temperature.toFixed(1);
+                humElement.textContent = humidity.toFixed(1);
+            } else {
+                console.log("No data available from Firebase.");
+                tempElement.textContent = '--';
+                humElement.textContent = '--';
+            }
+        }, (error) => {
+            console.error("Error fetching data:", error);
+            document.getElementById('temperature').textContent = 'Error';
+            document.getElementById('humidity').textContent = 'Error';
+        });
+    </script>
+</body>
+</html>
