@@ -8,7 +8,6 @@
 
 #include <DHT.h>
 
-
 char auth[] = BLYNK_AUTH_TOKEN;
 
 char ssid[] = "shreyash";  //type your wifi name
