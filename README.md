@@ -1,7 +1,7 @@
 # IOT
 
 Exp. 1 : ESP 32 Temp. and humdity monitoring using springboot
-Exp. 2 : ESP 32 Temp. and humdity monitoring using thingspeak
+// Exp. 2 : ESP 32 Temp. and humdity monitoring using thingspeak
 Exp. 3 : ESP 32 Temp. and humdity monitoring using Twilio
 Exp. 4 : ESP 32 Temp. and humdity monitoring using Blynk
 Exp. 5 : ESP 32 dual Light automation using Blynk
